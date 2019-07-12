@@ -29,6 +29,12 @@ export default class Search extends Component {
           />
           <input type='submit' value='Search' className='btn btn-dark btn-block' />
         </form>
+
+        {this.props.isClearVisible && (
+          <button className='btn btn-light btn-block' onClick={this.props.clearSearch}>
+            Clear
+          </button>
+        )}
       </div>
     );
   }
