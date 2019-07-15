@@ -1,41 +1,34 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-export default class Search extends Component {
-  constructor() {
-    super();
-    this.state = {
-      text: ''
-    };
-  }
+const Search = ({ setAlert, searchUsers, clearSearch, isClearVisible }) => {
+  const [text, setText] = useState('');
 
-  onSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault();
-    this.props.searchUsers(this.state.text);
-    this.setState({ text: '' });
+    if (text === '') {
+      setAlert('Please enter some search text', 'light');
+    } else {
+      searchUsers(text);
+      setText('');
+    }
   };
 
-  onSearchChange = e => this.setState({ [e.target.name]: e.target.value });
+  const onSearchChange = e => setText(e.target.value);
 
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.onSubmit} className='form'>
-          <input
-            type='text'
-            placeholder='Search Users...'
-            value={this.state.text}
-            name='text'
-            onChange={this.onSearchChange}
-          />
-          <input type='submit' value='Search' className='btn btn-dark btn-block' />
-        </form>
+  return (
+    <div>
+      <form onSubmit={onSubmit} className='form'>
+        <input type='text' placeholder='Search Users...' value={text} name='text' onChange={onSearchChange} />
+        <input type='submit' value='Search' className='btn btn-dark btn-block' />
+      </form>
 
-        {this.props.isClearVisible && (
-          <button className='btn btn-light btn-block' onClick={this.props.clearSearch}>
-            Clear
-          </button>
-        )}
-      </div>
-    );
-  }
-}
+      {isClearVisible && (
+        <button className='btn btn-light btn-block' onClick={clearSearch}>
+          Clear
+        </button>
+      )}
+    </div>
+  );
+};
+
+export default Search;
